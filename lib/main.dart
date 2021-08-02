@@ -49,7 +49,9 @@ class _TodoListState extends State<TodoList> {
 // Much like _addTodoItem, this modifies the array of todo strings and
 // notifies the app that the state has changed by using setState
   void _removeTodoItem(int index) {
-    setState(() => _todoItems.removeAt(index));
+    setState(
+      () => _todoItems.removeAt(index),
+    );
   }
 
 // Show an alert dialog asking the user to confirm that the task is done
