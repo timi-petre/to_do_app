@@ -30,12 +30,16 @@ class TodoList extends StatefulWidget {
 class _TodoListState extends State<TodoList> {
   List<String> _todoItems = [];
 // This will be called each time the + button is pressed
-  void _addTodoItem() {
+// Instead of autogenerating a todo item, _addTodoItem now accepts a string
+  void _addTodoItem(String task) {
     // Putting our code inside "setState" tells the app that our state has changed, and
     // it will automatically re-render the list
+    // Only add the task if the user actually entered something
+    if (task.length > 0) {}
     setState(() {
-      int index = _todoItems.length;
-      _todoItems.add('Item ' + index.toString());
+      return _todoItems.add(task);
+      // int index = _todoItems.length;
+      // _todoItems.add('Item ' + index.toString());
     });
   }
 
@@ -55,6 +59,7 @@ class _TodoListState extends State<TodoList> {
     );
   }
 
+// Build a single todo item
   Widget _buildTodoItem(String todoText) {
     return ListTile(
       title: Text(todoText),
@@ -70,10 +75,35 @@ class _TodoListState extends State<TodoList> {
       ),
       body: _buildTodoList(),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addTodoItem,
+        onPressed:
+            _pushAddTodoScreen, // pressing this button now opens the new screen
         tooltip: 'Add task',
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  void _pushAddTodoScreen() {
+    // Push this page onto the stack
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      // MaterialPageRoute will automatically animate the screen entry, as well
+      // as adding a back button to close it
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Add new task'),
+        ),
+        body: TextField(
+          autofocus: true,
+          onSubmitted: (val) {
+            _addTodoItem(val);
+            Navigator.pop(context); // Close the add todo screen
+          },
+          decoration: InputDecoration(
+            hintText: 'Enter something to do...',
+            contentPadding: const EdgeInsets.all(16),
+          ),
+        ),
+      );
+    }));
   }
 }
