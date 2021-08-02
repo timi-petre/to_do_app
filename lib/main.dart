@@ -1,5 +1,6 @@
 // Import MaterialApp and other widgets which we can use to quickly create a material app
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Code written in Dart starts exectuting from the main function. runApp is part of
 // Flutter, and requires the component which will be our app's container. In Flutter,
@@ -29,24 +30,29 @@ class TodoList extends StatefulWidget {
 
 class _TodoListState extends State<TodoList> {
   List<String> _todoItems = [];
+
 // This will be called each time the + button is pressed
 // Instead of autogenerating a todo item, _addTodoItem now accepts a string
   void _addTodoItem(String task) {
     // Putting our code inside "setState" tells the app that our state has changed, and
     // it will automatically re-render the list
     // Only add the task if the user actually entered something
-    if (task.length > 0) {}
-    setState(() {
-      return _todoItems.add(task);
-      // int index = _todoItems.length;
-      // _todoItems.add('Item ' + index.toString());
-    });
+    if (task.length > 0) {
+      setState(() {
+        return _todoItems.add(task);
+        // int index = _todoItems.length;
+        // _todoItems.add('Item ' + index.toString());
+      });
+    }
   }
 
+// Much like _addTodoItem, this modifies the array of todo strings and
+// notifies the app that the state has changed by using setState
   void _removeTodoItem(int index) {
     setState(() => _todoItems.removeAt(index));
   }
 
+// Show an alert dialog asking the user to confirm that the task is done
   void _promptRemoveTodoItem(int index) {
     showDialog(
       context: context,
